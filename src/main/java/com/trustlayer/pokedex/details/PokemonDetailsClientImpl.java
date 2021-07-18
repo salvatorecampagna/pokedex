@@ -24,6 +24,7 @@ public class PokemonDetailsClientImpl implements PokemonDetailsClient {
     @Override
     @HystrixCommand(
             fallbackMethod = "getByIdOrNameFallback",
+            threadPoolKey = "pokemon-details",
             commandProperties = {
                     @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
             }

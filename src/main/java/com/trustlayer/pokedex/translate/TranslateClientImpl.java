@@ -43,6 +43,7 @@ public class TranslateClientImpl implements TranslationClient {
     @Override
     @HystrixCommand(
             fallbackMethod = "translateFallback",
+            threadPoolKey = "pokemon-translate",
             commandProperties = {
                     @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
             }
