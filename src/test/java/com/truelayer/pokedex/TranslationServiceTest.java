@@ -4,7 +4,6 @@ import com.netflix.config.ConfigurationManager;
 import com.netflix.hystrix.Hystrix;
 import com.netflix.hystrix.HystrixCircuitBreaker;
 import com.truelayer.pokedex.details.model.Pokemon;
-import com.truelayer.pokedex.translate.TranslationClient;
 import com.truelayer.pokedex.translate.TranslationClientProvider;
 import com.truelayer.pokedex.translate.TranslationService;
 import com.truelayer.pokedex.translate.TranslationServiceImpl;
@@ -12,12 +11,10 @@ import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import com.truelayer.pokedex.translate.model.Translation;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestClientException;
 
 import static com.truelayer.pokedex.TestUtils.*;
@@ -25,7 +22,6 @@ import static com.truelayer.pokedex.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class TranslationServiceTest {
 

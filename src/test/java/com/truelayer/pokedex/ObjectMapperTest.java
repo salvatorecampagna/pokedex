@@ -3,19 +3,15 @@ package com.truelayer.pokedex;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.model.Pokemon;
-import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.mapper.ObjectMapper;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.truelayer.pokedex.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ObjectMapperTest {
 

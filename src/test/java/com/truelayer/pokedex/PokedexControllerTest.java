@@ -5,7 +5,6 @@ import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.PokemonDetailsService;
 import com.truelayer.pokedex.details.model.Pokemon;
-import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.mapper.ObjectMapper;
 import com.truelayer.pokedex.translate.TranslationService;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
