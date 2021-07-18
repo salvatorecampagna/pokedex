@@ -1,7 +1,10 @@
 package com.truelayer.pokedex.details.model;
 
+import lombok.Builder;
+
 import java.util.Objects;
 
+@Builder
 public class Language{
     public String name;
     public String url;

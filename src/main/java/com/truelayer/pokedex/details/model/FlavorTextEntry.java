@@ -1,9 +1,11 @@
 package com.truelayer.pokedex.details.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 import java.util.Objects;
 
+@Builder
 public class FlavorTextEntry{
     @JsonProperty("flavor_text")
     public String flavorText;
