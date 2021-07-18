@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 
 @Service
 public class TranslationServiceImpl implements TranslationService {
@@ -29,37 +28,25 @@ public class TranslationServiceImpl implements TranslationService {
     )
     public TranslatedPokemon translate(final Pokemon pokemon) {
 
-        try {
-            final TranslationClient client = translationClientProvider.get(pokemon);
-            final Translation translation = client.translate(pokemon.getDescription());
-            logger.info(
-                    String.format(
-                            "Translation, original text: '%s', translated text: '%s', translation: '%s",
-                            translation.getText(),
-                            translation.getTranslated(),
-                            translation.getTranslation()
-                    )
+        final TranslationClient client = translationClientProvider.get(pokemon);
+        final Translation translation = client.translate(pokemon.getDescription());
+        logger.info(
+                String.format(
+                        "Translation, original text: '%s', translated text: '%s', translation: '%s",
+                        translation.getText(),
+                        translation.getTranslated(),
+                        translation.getTranslation()
+                )
 
-            );
-            return new TranslatedPokemon(
-                    pokemon.getName(),
-                    translation.getTranslated(),
-                    pokemon.getHabitat(),
-                    translation.getTranslation(),
-                    true,
-                    pokemon.getLegendary()
-            );
-        } catch(RestClientException e) {
-            logger.error(String.format("Error while invoking the translation rest api: '%s'", e.getMessage()));
-            return new TranslatedPokemon(
-                    pokemon.getName(),
-                    pokemon.getDescription(),
-                    pokemon.getHabitat(),
-                    null,
-                    false,
-                    pokemon.getLegendary()
-            );
-        }
+        );
+        return new TranslatedPokemon(
+                pokemon.getName(),
+                translation.getTranslated(),
+                pokemon.getHabitat(),
+                translation.getTranslation(),
+                true,
+                pokemon.getLegendary()
+        );
     }
 
     public TranslatedPokemon translateFallback(final Pokemon pokemon) {
