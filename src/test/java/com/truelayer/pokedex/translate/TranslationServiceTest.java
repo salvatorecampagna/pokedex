@@ -1,13 +1,9 @@
-package com.truelayer.pokedex;
+package com.truelayer.pokedex.translate;
 
 import com.netflix.config.ConfigurationManager;
 import com.netflix.hystrix.Hystrix;
 import com.netflix.hystrix.HystrixCircuitBreaker;
 import com.truelayer.pokedex.details.model.Pokemon;
-import com.truelayer.pokedex.translate.TranslationClient;
-import com.truelayer.pokedex.translate.TranslationClientProvider;
-import com.truelayer.pokedex.translate.TranslationService;
-import com.truelayer.pokedex.translate.TranslationServiceImpl;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import com.truelayer.pokedex.translate.model.Translation;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.truelayer.pokedex;
+package com.truelayer.pokedex.mapper;
 
 import com.truelayer.pokedex.details.model.FlavorTextEntry;
 import com.truelayer.pokedex.details.model.Language;

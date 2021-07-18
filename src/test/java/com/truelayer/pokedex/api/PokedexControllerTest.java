@@ -1,6 +1,5 @@
-package com.truelayer.pokedex;
+package com.truelayer.pokedex.api;
 
-import com.truelayer.pokedex.api.PokemonController;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.PokemonDetailsService;
