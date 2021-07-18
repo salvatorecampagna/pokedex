@@ -3,10 +3,10 @@ package com.truelayer.pokedex.translate;
 import com.truelayer.pokedex.translate.model.Translation;
 import com.truelayer.pokedex.translate.model.TranslationRequest;
 import com.truelayer.pokedex.translate.model.TranslationResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 public class TranslationClientImpl implements TranslationClient {
-
     private final TranslateProps props;
     private final RestTemplate restTemplate;
     private final String translation;

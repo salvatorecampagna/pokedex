@@ -6,15 +6,16 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
 public class PokemonDetailsClientImpl implements PokemonDetailsClient {
     private final RestTemplate restTemplate;
+    private final PokemonDetailsProps props;
 
-    @Autowired
-    private PokemonDetailsProps props;
-
-    public PokemonDetailsClientImpl(final RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public PokemonDetailsClientImpl(
+            final RestTemplate restTemplate,
+            final PokemonDetailsProps props
+    ) {
+        this.restTemplate = restTemplate;
+        this.props = props;
     }
 
     @Override

@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @ConfigurationProperties(prefix = "service.pokemon.details")
 @Validated
 public class PokemonDetailsProps {
+
     @NotBlank(message = "service.pokemon.details.url must not be blank")
     private String url;
 

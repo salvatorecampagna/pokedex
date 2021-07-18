@@ -15,7 +15,7 @@ import org.springframework.web.client.RestClientException;
 public class PokemonDetailsServiceImpl implements PokemonDetailsService {
 
     @Autowired
-    private PokemonDetailsClient pokemonDetailsClient;
+    private PokemonDetailsClientProvider pokemonDetailsClientProvider;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -31,7 +31,7 @@ public class PokemonDetailsServiceImpl implements PokemonDetailsService {
     )
     public Pokemon getByIdOrName(final String idOrName) {
         try {
-            final PokemonDetails pokemonDetails = pokemonDetailsClient.getByIdOrName(idOrName);
+            final PokemonDetails pokemonDetails = pokemonDetailsClientProvider.get().getByIdOrName(idOrName);
             return objectMapper.toPokemon(pokemonDetails);
         } catch(RestClientException e) {
             final String message = String.format("Error while invoking the pokemon rest api: '%s'", e.getMessage());
