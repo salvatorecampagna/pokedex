@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PokemonTranslationServiceTest {
+public class TranslationServiceTest {
 
     private static final String HYSTRIX_CIRCUIT_BREAKER_NAME = "translate";
 
