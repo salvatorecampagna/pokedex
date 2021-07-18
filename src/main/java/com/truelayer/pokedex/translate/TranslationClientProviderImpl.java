@@ -1,5 +1,6 @@
 package com.truelayer.pokedex.translate;
 
+import com.truelayer.pokedex.details.model.Pokemon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,14 @@ public class TranslationClientProviderImpl implements TranslationClientProvider 
 
     @Override
     public TranslationClient get(
-            final String habitat,
-            final Boolean isLegendary
+            final Pokemon pokemon
     ) {
-        final String translation = CAVE_HABITAT.equalsIgnoreCase(habitat) && isLegendary ?
+        final String translation = CAVE_HABITAT.equalsIgnoreCase(pokemon.getHabitat()) || pokemon.getLegendary() ?
                 "shakespeare" : "yoda";
         logger.info(
                 String.format(
                         "Translation: %s, habitat: %s, isLegendary: %s",
-                        translation, habitat, isLegendary
+                        translation, pokemon.getHabitat(), pokemon.getLegendary()
                 )
         );
         return new TranslationClientImpl(props, restTemplateBuilder.build(), translation);

@@ -45,14 +45,6 @@ public class TranslationServiceTest {
     @Test
     public void shouldReturnPokemonDetails() {
         //GIVEN
-        when(translationClientProvider.get(
-                ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean())
-        ).thenReturn(text -> new Translation(
-                text.toUpperCase(),
-                text,
-                "uppercase"
-        ));
-
         final String description = "Pikachu is one of the most popular Pokemons";
         final Pokemon pokemon = buildPokemon(
                 "Pikachu",
@@ -60,6 +52,10 @@ public class TranslationServiceTest {
                 "The forest",
                 false
         );
+        when(translationClientProvider.get(ArgumentMatchers.eq(pokemon)))
+                .thenReturn(text -> new Translation(
+                        text.toUpperCase(), text, "uppercase"
+                ));
 
         //WHEN
         final TranslatedPokemon translatedPokemonResponse = translationService.translate(pokemon);
@@ -71,10 +67,6 @@ public class TranslationServiceTest {
     @Test
     public void shouldReturnNonTransltedDescriptionOnException() {
         //GIVEN
-        when(translationClientProvider.get(
-                ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean())
-        ).thenThrow(new RestClientException("Error while calling rest api"));
-
         final String description = "Pikachu is one of the most popular Pokemons";
         final Pokemon pokemon = buildPokemon(
                 "Pikachu",
@@ -82,7 +74,8 @@ public class TranslationServiceTest {
                 "The forest",
                 false
         );
-
+        when(translationClientProvider.get(pokemon))
+                .thenThrow(new RestClientException("Error while calling rest api"));
 
         //WHEN
         final TranslatedPokemon translatedPokemonResponse = translationService.translate(pokemon);
@@ -94,14 +87,6 @@ public class TranslationServiceTest {
     @Test
     public void circuitBreakerShouldBeOpenOnSuccess() {
         //GIVEN
-        when(translationClientProvider.get(
-                ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean())
-        ).thenReturn(text -> new Translation(
-                text.toUpperCase(),
-                text,
-                "uppercase"
-        ));
-
         final String description = "Pikachu is one of the most popular Pokemons";
         final Pokemon pokemon = buildPokemon(
                 "Pikachu",
@@ -109,6 +94,10 @@ public class TranslationServiceTest {
                 "The forest",
                 false
         );
+        when(translationClientProvider.get(pokemon))
+                .thenReturn(text -> new Translation(
+                        text.toUpperCase(), text, "uppercase"
+                ));
 
         //WHEN
         translationService.translate(pokemon);
@@ -121,8 +110,7 @@ public class TranslationServiceTest {
     @Test
     public void circuitBreakerShouldBeClosedOnFailure() throws InterruptedException {
         //GIVEN
-        when(translationClientProvider.get(
-                ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean())
+        when(translationClientProvider.get(ArgumentMatchers.any())
         ).thenThrow(new RestClientException("Error while calling rest api"));
 
         //WHEN

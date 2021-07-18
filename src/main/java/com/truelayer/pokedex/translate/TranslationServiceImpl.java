@@ -30,10 +30,7 @@ public class TranslationServiceImpl implements TranslationService {
     public TranslatedPokemon translate(final Pokemon pokemon) {
 
         try {
-            final TranslationClient client = translationClientProvider.get(
-                    pokemon.getHabitat(),
-                    pokemon.getLegendary()
-            );
+            final TranslationClient client = translationClientProvider.get(pokemon);
             final Translation translation = client.translate(pokemon.getDescription());
             logger.info(
                     String.format(
