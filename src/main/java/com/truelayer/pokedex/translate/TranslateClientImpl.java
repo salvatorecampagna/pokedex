@@ -19,11 +19,14 @@ public class TranslateClientImpl implements TranslationClient {
     private TranslateProps props;
 
     private final RestTemplate restTemplate;
+    private final String translation;
 
     public TranslateClientImpl(
-            final RestTemplateBuilder restTemplateBuilder
+            final RestTemplate restTemplate,
+            final String translation
     ) {
-        this.restTemplate = restTemplateBuilder.build();
+        this.restTemplate = restTemplate;
+        this.translation = translation;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class TranslateClientImpl implements TranslationClient {
                     @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
             }
     )
-    public String translate(final String text, final String translation) {
+    public String translate(final String text) {
         final String url = String.format(props.getUrl(), translation);
         final ResponseEntity<TranslationResponse> response = restTemplate.postForEntity(
                 url, new TranslationRequest(text), TranslationResponse.class
@@ -49,7 +52,7 @@ public class TranslateClientImpl implements TranslationClient {
         return response.getBody().getContents().getText();
     }
 
-    private String translateFallback(final String text, final String translation) {
+    private String translateFallback(final String text) {
         return text;
     }
 }

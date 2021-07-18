@@ -6,18 +6,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TranslateServiceImpl implements TranslateService {
+
     @Autowired
-    private TranslationClient translationClient;
+    private TranslationClientProvider translationClientProvider;
 
     @Override
     public TranslatedPokemon translate(final TranslatedPokemon translatedPokemon) {
-        final String translatedDescription = translatedPokemon.getLegendary() || "cave".equalsIgnoreCase(translatedPokemon.getHabitat()) ?
-            translationClient.translate(translatedPokemon.getDescription(), "shakespeare") :
-                translationClient.translate(translatedPokemon.getDescription(), "yoda");
 
+        final TranslationClient client = translationClientProvider.get(
+                translatedPokemon.getHabitat(),
+                translatedPokemon.getLegendary()
+        );
         return new TranslatedPokemon(
                 translatedPokemon.getName(),
-                translatedDescription,
+                client.translate(translatedPokemon.getDescription()),
                 translatedPokemon.getHabitat(),
                 translatedPokemon.getLegendary()
         );
