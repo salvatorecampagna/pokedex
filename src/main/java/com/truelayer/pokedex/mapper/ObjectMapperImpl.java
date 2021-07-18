@@ -1,8 +1,9 @@
 package com.truelayer.pokedex.mapper;
 
-import com.truelayer.pokedex.api.model.PokemonSummaryDto;
+import com.truelayer.pokedex.api.model.PokemonDto;
+import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.model.PokemonDetails;
-import com.truelayer.pokedex.translate.model.PokemonSummary;
+import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -11,32 +12,32 @@ import java.util.NoSuchElementException;
 public class ObjectMapperImpl implements ObjectMapper {
 
     @Override
-    public PokemonSummaryDto pokemonDetailsToPokemonSummaryDto(final PokemonSummary pokemonSummary) {
-        return new PokemonSummaryDto(
-                pokemonSummary.getName(),
-                pokemonSummary.getHabitat(),
-                pokemonSummary.getDescription(),
-                pokemonSummary.getLegendary()
-        );
-    }
-
-    @Override
-    public PokemonSummaryDto pokemonDetailsToPokemonSummaryDto(final PokemonDetails pokemonDetails) {
-        return new PokemonSummaryDto(
+    public PokemonDto toPokemonDto(final PokemonDetails pokemonDetails) {
+        return new PokemonDto(
                 pokemonDetails.getName(),
-                pokemonDetails.getHabitat().getName(),
                 getPokemonDescription(pokemonDetails),
+                pokemonDetails.getHabitat().getName(),
                 pokemonDetails.isLegendary()
         );
     }
 
     @Override
-    public PokemonSummary pokemonDetailsToPokemonSummary(final PokemonDetails pokemonDetails) {
-        return new PokemonSummary(
+    public TranslatedPokemon toTranslatedPokemon(final PokemonDetails pokemonDetails) {
+        return new TranslatedPokemon(
                 pokemonDetails.getName(),
-                pokemonDetails.getHabitat().getName(),
                 getPokemonDescription(pokemonDetails),
+                pokemonDetails.getHabitat().getName(),
                 pokemonDetails.isLegendary()
+        );
+    }
+
+    @Override
+    public TranslatedPokemonDto toTranslatedPokemonDto(final TranslatedPokemon translatedPokemon) {
+        return new TranslatedPokemonDto(
+                translatedPokemon.getName(),
+                translatedPokemon.getDescription(),
+                translatedPokemon.getHabitat(),
+                translatedPokemon.getLegendary()
         );
     }
 

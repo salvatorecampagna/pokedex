@@ -1,6 +1,7 @@
 package com.truelayer.pokedex.api;
 
-import com.truelayer.pokedex.api.model.PokemonSummaryDto;
+import com.truelayer.pokedex.api.model.PokemonDto;
+import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.mapper.ObjectMapper;
 import com.truelayer.pokedex.translate.TranslateService;
 import com.truelayer.pokedex.details.PokemonDetailsService;
@@ -24,17 +25,17 @@ public class PokemonController {
     private ObjectMapper objectMapper;
 
     @GetMapping("/{pokemonName}")
-    public PokemonSummaryDto getPokemon(@PathVariable("pokemonName") final String pokemonName) {
-        return objectMapper.pokemonDetailsToPokemonSummaryDto(
+    public PokemonDto getPokemon(@PathVariable("pokemonName") final String pokemonName) {
+        return objectMapper.toPokemonDto(
                 pokemonDetailsService.getByIdOrName(pokemonName)
         );
     }
 
     @GetMapping("/translated/{pokemonName}")
-    public PokemonSummaryDto getTranslatedPokemon(@PathVariable("pokemonName") final String pokemonName) {
-        return objectMapper.pokemonDetailsToPokemonSummaryDto(
+    public TranslatedPokemonDto getTranslatedPokemon(@PathVariable("pokemonName") final String pokemonName) {
+        return objectMapper.toTranslatedPokemonDto(
                 translateService.translate(
-                    objectMapper.pokemonDetailsToPokemonSummary(
+                    objectMapper.toTranslatedPokemon(
                             pokemonDetailsService.getByIdOrName(pokemonName)
                     )
                 )

@@ -1,6 +1,6 @@
 package com.truelayer.pokedex.translate;
 
-import com.truelayer.pokedex.translate.model.PokemonSummary;
+import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +10,16 @@ public class TranslateServiceImpl implements TranslateService {
     private TranslationClient translationClient;
 
     @Override
-    public PokemonSummary translate(final PokemonSummary pokemonSummary) {
-        final String translatedDescription = pokemonSummary.getLegendary() || "cave".equalsIgnoreCase(pokemonSummary.getHabitat()) ?
-            translationClient.translate(pokemonSummary.getDescription(), "shakespeare") :
-                translationClient.translate(pokemonSummary.getDescription(), "yoda");
+    public TranslatedPokemon translate(final TranslatedPokemon translatedPokemon) {
+        final String translatedDescription = translatedPokemon.getLegendary() || "cave".equalsIgnoreCase(translatedPokemon.getHabitat()) ?
+            translationClient.translate(translatedPokemon.getDescription(), "shakespeare") :
+                translationClient.translate(translatedPokemon.getDescription(), "yoda");
 
-        return new PokemonSummary(
-                pokemonSummary.getName(),
-                pokemonSummary.getHabitat(),
+        return new TranslatedPokemon(
+                translatedPokemon.getName(),
                 translatedDescription,
-                pokemonSummary.getLegendary()
+                translatedPokemon.getHabitat(),
+                translatedPokemon.getLegendary()
         );
     }
 }

@@ -1,7 +1,7 @@
 package com.truelayer.pokedex.translate;
 
-import com.truelayer.pokedex.translate.model.PokemonSummary;
+import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 
 public interface TranslateService {
-    PokemonSummary translate(PokemonSummary pokemonSummary);
+    TranslatedPokemon translate(TranslatedPokemon translatedPokemon);
 }

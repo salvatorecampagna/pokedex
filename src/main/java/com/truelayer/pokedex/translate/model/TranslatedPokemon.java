@@ -1,14 +1,17 @@
-package com.truelayer.pokedex.api.model;
+package com.truelayer.pokedex.translate.model;
+
+import lombok.Builder;
 
 import java.util.Objects;
 
-public class PokemonSummaryDto {
+@Builder
+public class TranslatedPokemon {
     private final String name;
     private final String description;
     private final String habitat;
     private final Boolean isLegendary;
 
-    public PokemonSummaryDto(
+    public TranslatedPokemon(
             final String name,
             final String description,
             final String habitat,
@@ -40,8 +43,11 @@ public class PokemonSummaryDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PokemonSummaryDto that = (PokemonSummaryDto) o;
-        return Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(habitat, that.habitat) && Objects.equals(isLegendary, that.isLegendary);
+        TranslatedPokemon that = (TranslatedPokemon) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(habitat, that.habitat) &&
+                Objects.equals(isLegendary, that.isLegendary);
     }
 
     @Override
@@ -52,7 +58,7 @@ public class PokemonSummaryDto {
     @Override
     public String toString() {
         return String.format(
-                "PokemonDetailsDto{name='%s', description='%s', habitat='%s', isLegendary=%s}",
+                "TranslatedPokemon{name='%s', description='%s', habitat='%s', isLegendary=%s}",
                 name, description, habitat, isLegendary
         );
     }

@@ -6,6 +6,11 @@ public class FormDescription{
     public String description;
     public Language language;
 
+    public FormDescription(String description, Language language) {
+        this.description = description;
+        this.language = language;
+    }
+
     public String getDescription() {
         return description;
     }

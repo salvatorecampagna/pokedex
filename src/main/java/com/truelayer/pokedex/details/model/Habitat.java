@@ -1,10 +1,12 @@
 package com.truelayer.pokedex.details.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 import java.util.List;
 import java.util.Objects;
 
+@Builder
 public class Habitat {
     public int id;
     public String name;
