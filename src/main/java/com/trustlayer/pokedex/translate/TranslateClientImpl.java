@@ -19,8 +19,10 @@ public class TranslateClientImpl implements TranslationClient {
     @Autowired
     private ApiKeyProvider apiKeyProvider;
 
+    @Autowired
+    private TranslateProps props;
+
     private final RestTemplate restTemplate;
-    private static final String URL = "https://api.funtranslations.com/translate/%s.json";
 
     public TranslateClientImpl(
             final RestTemplateBuilder restTemplateBuilder
@@ -46,7 +48,7 @@ public class TranslateClientImpl implements TranslationClient {
             }
     )
     public String translate(final String text, final String translation) {
-        final String url = String.format(URL, translation);
+        final String url = String.format(props.getUrl(), translation);
         final ResponseEntity<TranslationResponse> response = restTemplate.postForEntity(
                 url, new TranslationRequest(text), TranslationResponse.class, buildHeaders()
         );
