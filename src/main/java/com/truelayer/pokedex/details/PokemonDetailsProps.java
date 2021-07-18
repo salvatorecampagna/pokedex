@@ -13,7 +13,7 @@ public class PokemonDetailsProps {
     @NotBlank(message = "service.pokemon.details.url must not be blank")
     private String url;
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 

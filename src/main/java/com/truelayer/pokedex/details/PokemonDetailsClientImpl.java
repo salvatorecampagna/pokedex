@@ -29,7 +29,7 @@ public class PokemonDetailsClientImpl implements PokemonDetailsClient {
                     @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
             }
     )
-    public PokemonDetails getByIdOrName(String idOrName) {
+    public PokemonDetails getByIdOrName(final String idOrName) {
         final String url = String.format(props.getUrl(), idOrName);
         final ResponseEntity<PokemonDetails> response = restTemplate.getForEntity(url, PokemonDetails.class);
         final HttpStatus statusCode = response.getStatusCode();
@@ -42,7 +42,7 @@ public class PokemonDetailsClientImpl implements PokemonDetailsClient {
         return response.getBody();
     }
 
-    public PokemonDetails getByIdOrNameFallback(String idOrName) {
+    public PokemonDetails getByIdOrNameFallback(final String idOrName) {
         throw new PokemonDetailsException(
                 String.format("Error while invoking the pokemon details service for pokemon '%s'", idOrName)
         );
