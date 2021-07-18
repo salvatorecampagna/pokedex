@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotBlank;
 
 @RestController
-@RequestMapping(path = "pokemon", produces = "application/json")
+@RequestMapping(path = "pokemon")
 public class PokemonController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class PokemonController {
 
     private final Logger logger = LoggerFactory.getLogger(PokemonController.class);
 
-    @GetMapping("/{pokemonName}")
+    @GetMapping(value = "/{pokemonName}", produces = "application/json")
     public PokemonDto getPokemon(@PathVariable("pokemonName") @NotBlank final String pokemonName) {
         logger.info(String.format("GET /pokemon/%s", pokemonName));
         return objectMapper.toPokemonDto(
@@ -38,7 +38,7 @@ public class PokemonController {
         );
     }
 
-    @GetMapping("/translated/{pokemonName}")
+    @GetMapping(value = "/translated/{pokemonName}", produces = "application/json")
     public TranslatedPokemonDto getTranslatedPokemon(@PathVariable("pokemonName") @NotBlank final String pokemonName) {
         logger.info(String.format("GET /translated/%s", pokemonName));
         return objectMapper.toTranslatedPokemonDto(
