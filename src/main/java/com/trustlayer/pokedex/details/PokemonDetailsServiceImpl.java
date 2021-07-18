@@ -1,7 +1,6 @@
 package com.trustlayer.pokedex.details;
 
 import com.trustlayer.pokedex.details.model.PokemonDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,4 +31,5 @@ public class PokemonDetailsServiceImpl implements PokemonDetailsService {
 
         return response.getBody();
     }
+
 }

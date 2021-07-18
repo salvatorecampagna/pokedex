@@ -1,5 +1,7 @@
 package com.trustlayer.pokedex.translate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.trustlayer.pokedex.auth.ApiKeyProvider;
 import com.trustlayer.pokedex.translate.model.TranslationRequest;
 import com.trustlayer.pokedex.translate.model.TranslationResponse;
@@ -37,6 +39,12 @@ public class TranslateClientImpl implements TranslationClient {
     }
 
     @Override
+    @HystrixCommand(
+            fallbackMethod = "translateFallback",
+            commandProperties = {
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500")
+            }
+    )
     public String translate(final String text, final String translation) {
         final String url = String.format(URL, translation);
         final ResponseEntity<TranslationResponse> response = restTemplate.postForEntity(
@@ -50,5 +58,9 @@ public class TranslateClientImpl implements TranslationClient {
         }
 
         return response.getBody().getContents().getText();
+    }
+
+    private String translateFallback(final String text, final String translation) {
+        return text;
     }
 }
