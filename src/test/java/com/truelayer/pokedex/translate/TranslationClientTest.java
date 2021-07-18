@@ -38,10 +38,11 @@ class TranslationClientTest {
 
     private RestTemplate restTemplate;
     private MockRestServiceServer mockServer;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper;
 
     @BeforeEach
     public void setup() {
+        mapper = new ObjectMapper();
         restTemplate = restTemplateBuilder.build();
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
