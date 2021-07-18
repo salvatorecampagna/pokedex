@@ -84,7 +84,7 @@ public class PokedexControllerTest {
         );
         final TranslatedPokemon translatedPokemonRequest = buildTranslatedPokemon(
                 pokemonDetails.getName(),
-                pokemonDetails.getFormDescriptions().get(0).getDescription(),
+                pokemonDetails.getFlavorTextEntries().get(0).getFlavorText(),
                 pokemonDetails.getHabitat().getName(),
                 pokemonDetails.isLegendary()
         );

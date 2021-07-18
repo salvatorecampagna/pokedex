@@ -4,10 +4,7 @@ import com.netflix.hystrix.HystrixCircuitBreaker;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
-import com.truelayer.pokedex.details.model.FormDescription;
-import com.truelayer.pokedex.details.model.Habitat;
-import com.truelayer.pokedex.details.model.Language;
-import com.truelayer.pokedex.details.model.PokemonDetails;
+import com.truelayer.pokedex.details.model.*;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 
 import java.util.Collections;
@@ -38,8 +35,14 @@ public class TestUtils {
                 .id(id)
                 .name(name)
                 .habitat(Habitat.builder().id(0).name(habitat).names(Collections.emptyList()).build())
-                .formDescriptions(
-                        Collections.singletonList(new FormDescription(description, new Language("en", "en")))
+                .flavorTextEntries(
+                        Collections.singletonList(
+                                FlavorTextEntry.builder()
+                                        .flavorText(description)
+                                        .version(Version.builder().name("v1").url("http://v1.org").build())
+                                        .language(Language.builder().name("en").url("http://en.org").build()).
+                                        build())
+
                 )
                 .isLegendary(isLegendary)
                 .build();
@@ -50,7 +53,7 @@ public class TestUtils {
     ) {
         return PokemonDto.builder()
                 .name(pokemonDetails.getName())
-                .description(pokemonDetails.getFormDescriptions().get(0).getDescription())
+                .description(pokemonDetails.getFlavorTextEntries().get(0).getFlavorText())
                 .habitat(pokemonDetails.getHabitat().getName())
                 .isLegendary(pokemonDetails.isLegendary())
                 .build();
