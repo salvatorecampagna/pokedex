@@ -2,7 +2,6 @@ package com.truelayer.pokedex.translate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.truelayer.pokedex.auth.ApiKeyProvider;
 import com.truelayer.pokedex.translate.model.TranslationRequest;
 import com.truelayer.pokedex.translate.model.TranslationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ import org.springframework.web.client.RestTemplate;
 public class TranslateClientImpl implements TranslationClient {
 
     @Autowired
-    private ApiKeyProvider apiKeyProvider;
-
-    @Autowired
     private TranslateProps props;
 
     private final RestTemplate restTemplate;
@@ -28,16 +24,6 @@ public class TranslateClientImpl implements TranslationClient {
             final RestTemplateBuilder restTemplateBuilder
     ) {
         this.restTemplate = restTemplateBuilder.build();
-    }
-
-    private HttpHeaders buildHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
-        if (!apiKeyProvider.get().getValid()) {
-            // Return empty headers
-            return headers;
-        }
-        headers.add("X-Funtranslations-Api-Secret", apiKeyProvider.get().getApiKey());
-        return headers;
     }
 
     @Override
@@ -51,7 +37,7 @@ public class TranslateClientImpl implements TranslationClient {
     public String translate(final String text, final String translation) {
         final String url = String.format(props.getUrl(), translation);
         final ResponseEntity<TranslationResponse> response = restTemplate.postForEntity(
-                url, new TranslationRequest(text), TranslationResponse.class, buildHeaders()
+                url, new TranslationRequest(text), TranslationResponse.class
         );
         final HttpStatus statusCode = response.getStatusCode();
         if (!statusCode.is2xxSuccessful()) {
