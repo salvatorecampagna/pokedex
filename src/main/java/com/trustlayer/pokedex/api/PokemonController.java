@@ -32,6 +32,12 @@ public class PokemonController {
 
     @GetMapping("/translated/{pokemonName}")
     public PokemonSummaryDto getTranslatedPokemon(@PathVariable("pokemonName") final String pokemonName) {
-        return null;
+        return objectMapper.pokemonDetailsToPokemonSummaryDto(
+                translateService.translate(
+                    objectMapper.pokemonDetailsToPokemonSummary(
+                            pokemonDetailsService.getByIdOrName(pokemonName)
+                    )
+                )
+        );
     }
 }
