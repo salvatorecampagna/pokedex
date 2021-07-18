@@ -27,8 +27,8 @@ public class TestUtils {
     public static PokemonDetails buildPokemonDetails(
             int id,
             final String name,
-            final String habitat,
             final String description,
+            final String habitat,
             boolean isLegendary
     ) {
         return PokemonDetails.builder()
