@@ -18,8 +18,8 @@ public class TranslationClientProviderImpl implements TranslationClientProvider 
             final Boolean isLegendary
     ) {
         if (CAVE_HABITAT.equalsIgnoreCase(habitat) && isLegendary) {
-            return new TranslateClientImpl(restTemplateBuilder.build(), "shakespeare");
+            return new TranslationClientImpl(restTemplateBuilder.build(), "shakespeare");
         }
-        return new TranslateClientImpl(restTemplateBuilder.build(), "yoda");
+        return new TranslationClientImpl(restTemplateBuilder.build(), "yoda");
     }
 }

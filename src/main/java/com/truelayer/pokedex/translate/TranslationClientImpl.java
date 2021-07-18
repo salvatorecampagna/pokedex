@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class TranslateClientImpl implements TranslationClient {
+public class TranslationClientImpl implements TranslationClient {
 
     @Autowired
     private TranslateProps props;
@@ -21,7 +21,7 @@ public class TranslateClientImpl implements TranslationClient {
     private final RestTemplate restTemplate;
     private final String translation;
 
-    public TranslateClientImpl(
+    public TranslationClientImpl(
             final RestTemplate restTemplate,
             final String translation
     ) {
