@@ -43,7 +43,12 @@ public class ObjectMapperTest {
     @Test
     public void shouldReturnTranslatedPokeonDto() {
         final TranslatedPokemon translatedPokemon = buildTranslatedPokemon(
-                "Bulbasaur", "Another pokemon living in the forest", "The forest", false
+                "Bulbasaur",
+                "Another pokemon living in the forest",
+                "The forest",
+                "yoda",
+                true,
+                false
         );
         final TranslatedPokemonDto translatedPokemonDto = objectMapper.toTranslatedPokemonDto(
                 translatedPokemon
@@ -54,6 +59,8 @@ public class ObjectMapperTest {
                         "Bulbasaur",
                         "Another pokemon living in the forest",
                         "The forest",
+                        "yoda",
+                        true,
                         false
                 )
         );

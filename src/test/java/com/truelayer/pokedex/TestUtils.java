@@ -14,13 +14,15 @@ public class TestUtils {
     private TestUtils() {}
 
     public static TranslatedPokemonDto buildTranslatedPokemonDto(
-            final TranslatedPokemon translatedPokemonResponse
+            final TranslatedPokemon translatedPokemon
     ) {
         return new TranslatedPokemonDto(
-                translatedPokemonResponse.getName(),
-                translatedPokemonResponse.getDescription(),
-                translatedPokemonResponse.getHabitat(),
-                translatedPokemonResponse.getLegendary()
+                translatedPokemon.getName(),
+                translatedPokemon.getDescription(),
+                translatedPokemon.getHabitat(),
+                translatedPokemon.getTranslation(),
+                translatedPokemon.getTranslated(),
+                translatedPokemon.getLegendary()
         );
     }
 
@@ -77,15 +79,14 @@ public class TestUtils {
             final String name,
             final String description,
             final String habitat,
+            final String translation,
+            final Boolean isTranslated,
             boolean isLegendary
 
     ) {
-        return TranslatedPokemon.builder()
-                .name(name)
-                .description(description)
-                .habitat(habitat)
-                .isLegendary(isLegendary)
-                .build();
+        return new TranslatedPokemon(
+                name, description, habitat, translation, isTranslated, isLegendary
+        );
     }
 
     public static void waitHystrixCircuitBreakerOpens() throws InterruptedException {

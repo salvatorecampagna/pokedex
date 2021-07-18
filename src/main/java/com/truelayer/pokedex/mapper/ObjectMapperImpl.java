@@ -40,6 +40,8 @@ public class ObjectMapperImpl implements ObjectMapper {
                 translatedPokemon.getName(),
                 translatedPokemon.getDescription(),
                 translatedPokemon.getHabitat(),
+                translatedPokemon.getTranslation(),
+                translatedPokemon.getTranslated(),
                 translatedPokemon.getLegendary()
         );
     }

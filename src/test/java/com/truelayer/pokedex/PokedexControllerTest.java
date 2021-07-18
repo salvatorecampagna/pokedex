@@ -81,25 +81,21 @@ public class PokedexControllerTest {
                 "Another Pokemon that I heard of",
                 true
         );
-        final TranslatedPokemon translatedPokemonRequest = buildTranslatedPokemon(
+        final TranslatedPokemon translatedPokemon = buildTranslatedPokemon(
                 pokemon.getName(),
-                pokemon.getDescription(),
+                pokemon.getDescription().toLowerCase(),
                 pokemon.getHabitat(),
+                "lowercase",
+                true,
                 pokemon.getLegendary()
         );
-        final TranslatedPokemon translatedPokemonResponse = buildTranslatedPokemon(
-                translatedPokemonRequest.getName(),
-                translatedPokemonRequest.getDescription().toLowerCase(),
-                translatedPokemonRequest.getHabitat(),
-                translatedPokemonRequest.getLegendary()
-        );
-        final TranslatedPokemonDto translatedPokemonDto = buildTranslatedPokemonDto(translatedPokemonResponse);
+        final TranslatedPokemonDto translatedPokemonDto = buildTranslatedPokemonDto(translatedPokemon);
 
         when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.matches(pokemonName)))
                 .thenReturn(pokemon);
         when(translationService.translate(pokemon))
-            .thenReturn(translatedPokemonResponse);
-        when(objectMapper.toTranslatedPokemonDto(ArgumentMatchers.eq(translatedPokemonResponse)))
+            .thenReturn(translatedPokemon);
+        when(objectMapper.toTranslatedPokemonDto(ArgumentMatchers.eq(translatedPokemon)))
                 .thenReturn(translatedPokemonDto);
 
         //WHEN
