@@ -1,11 +1,20 @@
 package com.truelayer.pokedex.translate.model;
 
+import lombok.Builder;
+
 import java.util.Objects;
 
+@Builder
 public class Success {
     private Integer total;
 
     public Success() {
+    }
+
+    public Success(
+            final Integer total
+    ) {
+        this.total = total;
     }
 
     public Integer getTotal() {

@@ -1,7 +1,10 @@
 package com.truelayer.pokedex.translate.model;
 
+import lombok.Builder;
+
 import java.util.Objects;
 
+@Builder
 public class Translation {
     private final String translated;
     private final String text;
