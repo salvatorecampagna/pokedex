@@ -1,7 +1,5 @@
 package com.truelayer.pokedex;
 
-import com.netflix.hystrix.HystrixCircuitBreaker;
-import com.netflix.hystrix.HystrixCommandKey;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.model.*;
@@ -86,16 +84,6 @@ public class TestUtils {
     ) {
         return new TranslatedPokemon(
                 name, description, habitat, translation, isTranslated, isLegendary
-        );
-    }
-
-    public static void waitHystrixCircuitBreakerOpens() throws InterruptedException {
-        Thread.sleep(5000);
-    }
-
-    public static HystrixCircuitBreaker getCircuitBreaker(final String name) {
-        return HystrixCircuitBreaker.Factory.getInstance(
-                HystrixCommandKey.Factory.asKey(name)
         );
     }
 }
