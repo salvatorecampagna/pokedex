@@ -2,6 +2,7 @@ package com.truelayer.pokedex.api;
 
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
+import com.truelayer.pokedex.details.PokemonDetailsException;
 import com.truelayer.pokedex.details.PokemonDetailsService;
 import com.truelayer.pokedex.details.model.Pokemon;
 import com.truelayer.pokedex.mapper.ObjectMapper;
@@ -104,5 +105,21 @@ public class PokedexControllerTest {
         //THEN
         resultActions.andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(translatedPokemonDto)));
+    }
+
+    @Test
+    public void shouldReturn5xxOnPokemonDetailsRestApiCallError() throws Exception {
+        // GIVEN
+        when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.anyString()))
+                .thenThrow(new PokemonDetailsException("Exception while retrieving pokemon details"));
+
+        //WHEN
+        final ResultActions resultActions = mockMvc.perform(
+                get("/pokemon/pikachu")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //THEN
+        resultActions.andExpect(status().is5xxServerError());
     }
 }
