@@ -6,7 +6,7 @@ import com.netflix.hystrix.HystrixCircuitBreaker;
 import com.truelayer.pokedex.details.model.Pokemon;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import com.truelayer.pokedex.translate.model.Translation;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class TranslationServiceTest {
     @Autowired
     private TranslationService translationService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Hystrix.reset();
         ConfigurationManager

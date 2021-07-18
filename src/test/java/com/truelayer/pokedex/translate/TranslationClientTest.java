@@ -6,6 +6,7 @@ import com.truelayer.pokedex.translate.model.Contents;
 import com.truelayer.pokedex.translate.model.Success;
 import com.truelayer.pokedex.translate.model.Translation;
 import com.truelayer.pokedex.translate.model.TranslationResponse;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
