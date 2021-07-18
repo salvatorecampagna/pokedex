@@ -4,4 +4,5 @@ import com.truelayer.pokedex.translate.model.Translation;
 
 public interface TranslationClient {
     Translation translate(String text);
+    String getTranslation();
 }

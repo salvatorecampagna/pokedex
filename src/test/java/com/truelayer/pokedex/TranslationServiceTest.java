@@ -4,6 +4,7 @@ import com.netflix.config.ConfigurationManager;
 import com.netflix.hystrix.Hystrix;
 import com.netflix.hystrix.HystrixCircuitBreaker;
 import com.truelayer.pokedex.details.model.Pokemon;
+import com.truelayer.pokedex.translate.TranslationClient;
 import com.truelayer.pokedex.translate.TranslationClientProvider;
 import com.truelayer.pokedex.translate.TranslationService;
 import com.truelayer.pokedex.translate.TranslationServiceImpl;
@@ -52,10 +53,19 @@ public class TranslationServiceTest {
                 "The forest",
                 false
         );
-        when(translationClientProvider.get(ArgumentMatchers.eq(pokemon)))
-                .thenReturn(text -> new Translation(
-                        text.toUpperCase(), text, "uppercase"
-                ));
+        when(translationClientProvider.get(ArgumentMatchers.eq(pokemon))).thenReturn(
+                new TranslationClient() {
+                    @Override
+                    public Translation translate(String text) {
+                        return new Translation(text.toUpperCase(), text, "uppercase");
+                    }
+
+                    @Override
+                    public String getTranslation() {
+                        return "uppercase";
+                    }
+                }
+        );
 
         //WHEN
         final TranslatedPokemon translatedPokemonResponse = translationService.translate(pokemon);
@@ -94,10 +104,19 @@ public class TranslationServiceTest {
                 "The forest",
                 false
         );
-        when(translationClientProvider.get(pokemon))
-                .thenReturn(text -> new Translation(
-                        text.toUpperCase(), text, "uppercase"
-                ));
+        when(translationClientProvider.get(ArgumentMatchers.eq(pokemon))).thenReturn(
+                new TranslationClient() {
+                    @Override
+                    public Translation translate(String text) {
+                        return new Translation(text.toUpperCase(), text, "uppercase");
+                    }
+
+                    @Override
+                    public String getTranslation() {
+                        return "uppercase";
+                    }
+                }
+        );
 
         //WHEN
         translationService.translate(pokemon);

@@ -32,4 +32,9 @@ public class TranslationClientImpl implements TranslationClient {
                     translationResponse.getContents().getTranslation()
             );
     }
+
+    @Override
+    public String getTranslation() {
+        return translation;
+    }
 }
