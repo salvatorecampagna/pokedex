@@ -4,9 +4,6 @@ import com.truelayer.pokedex.api.PokemonController;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.PokemonDetailsService;
-import com.truelayer.pokedex.details.model.FormDescription;
-import com.truelayer.pokedex.details.model.Habitat;
-import com.truelayer.pokedex.details.model.Language;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.mapper.ObjectMapper;
 import com.truelayer.pokedex.translate.TranslationService;
@@ -22,10 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.truelayer.pokedex.TestUtils.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Collections;
 
 import static org.mockito.Mockito.when;
 
@@ -118,60 +114,5 @@ public class PokedexControllerTest {
         //THEN
         resultActions.andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(translatedPokemonDto)));
-    }
-
-    private TranslatedPokemonDto buildTranslatedPokemonDto(
-            final TranslatedPokemon translatedPokemonResponse
-    ) {
-        return new TranslatedPokemonDto(
-                translatedPokemonResponse.getName(),
-                translatedPokemonResponse.getDescription(),
-                translatedPokemonResponse.getHabitat(),
-                translatedPokemonResponse.getLegendary()
-        );
-    }
-
-    private PokemonDetails buildPokemonDetails(
-            int id,
-            final String name,
-            final String habitat,
-            final String description,
-            boolean isLegendary
-    ) {
-        return PokemonDetails.builder()
-                .id(id)
-                .name(name)
-                .habitat(Habitat.builder().id(0).name(habitat).names(Collections.emptyList()).build())
-                .formDescriptions(
-                        Collections.singletonList(new FormDescription(description, new Language("en", "en")))
-                )
-                .isLegendary(isLegendary)
-                .build();
-    }
-
-    private PokemonDto buildPokemonDto(
-            final PokemonDetails pokemonDetails
-    ) {
-        return PokemonDto.builder()
-                .name(pokemonDetails.getName())
-                .description(pokemonDetails.getFormDescriptions().get(0).getDescription())
-                .habitat(pokemonDetails.getHabitat().getName())
-                .isLegendary(pokemonDetails.isLegendary())
-                .build();
-    }
-
-    private TranslatedPokemon buildTranslatedPokemon(
-            final String name,
-            final String description,
-            final String habitat,
-            boolean isLegendary
-
-    ) {
-        return TranslatedPokemon.builder()
-                .name(name)
-                .description(description)
-                .habitat(habitat)
-                .isLegendary(isLegendary)
-                .build();
     }
 }
