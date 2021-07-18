@@ -42,7 +42,7 @@ public class TranslateClientImpl implements TranslationClient {
     @HystrixCommand(
             fallbackMethod = "translateFallback",
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500")
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
             }
     )
     public String translate(final String text, final String translation) {
