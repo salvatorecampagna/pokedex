@@ -4,18 +4,20 @@ import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.NoSuchElementException;
 
 @Component
 public class ObjectMapperImpl implements ObjectMapper {
+
+    @Autowired
+    private PokemonDescriptionProvider pokemonDescriptionProvider;
 
     @Override
     public PokemonDto toPokemonDto(final PokemonDetails pokemonDetails) {
         return new PokemonDto(
                 pokemonDetails.getName(),
-                getPokemonDescription(pokemonDetails),
+                pokemonDescriptionProvider.get(pokemonDetails),
                 pokemonDetails.getHabitat().getName(),
                 pokemonDetails.isLegendary()
         );
@@ -25,7 +27,7 @@ public class ObjectMapperImpl implements ObjectMapper {
     public TranslatedPokemon toTranslatedPokemon(final PokemonDetails pokemonDetails) {
         return new TranslatedPokemon(
                 pokemonDetails.getName(),
-                getPokemonDescription(pokemonDetails),
+                pokemonDescriptionProvider.get(pokemonDetails),
                 pokemonDetails.getHabitat().getName(),
                 pokemonDetails.isLegendary()
         );
@@ -39,11 +41,5 @@ public class ObjectMapperImpl implements ObjectMapper {
                 translatedPokemon.getHabitat(),
                 translatedPokemon.getLegendary()
         );
-    }
-
-    private String getPokemonDescription(final PokemonDetails pokemonDetails) {
-        return pokemonDetails.getFlavorTextEntries().stream().filter(
-                entry -> "en".equalsIgnoreCase(entry.getLanguage().getName())
-        ).findFirst().orElseThrow(() -> new NoSuchElementException("No english description found")).getFlavorText();
     }
 }
