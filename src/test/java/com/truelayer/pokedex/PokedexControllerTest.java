@@ -4,6 +4,7 @@ import com.truelayer.pokedex.api.PokemonController;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.details.PokemonDetailsService;
+import com.truelayer.pokedex.details.model.Pokemon;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.mapper.ObjectMapper;
 import com.truelayer.pokedex.translate.TranslationService;
@@ -46,18 +47,17 @@ public class PokedexControllerTest {
     public void shouldReturnPokemon() throws Exception {
         // GIVEN
         final String pokemonName = "pikachu";
-        final PokemonDetails pokemonDetails = buildPokemonDetails(
-                1,
+        final Pokemon pokemon = buildPokemon(
                 "Pikachu",
                 "Dangerous habitat",
                 "One of the most popular Pokemons",
                 false
         );
-        final PokemonDto pokemonDto = buildPokemonDto(pokemonDetails);
+        final PokemonDto pokemonDto = buildPokemonDto(pokemon);
 
         when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.matches(pokemonName)))
-                .thenReturn(pokemonDetails);
-        when(objectMapper.toPokemonDto(ArgumentMatchers.eq(pokemonDetails)))
+                .thenReturn(pokemon);
+        when(objectMapper.toPokemonDto(ArgumentMatchers.eq(pokemon)))
                 .thenReturn(pokemonDto);
 
         //WHEN
@@ -75,18 +75,17 @@ public class PokedexControllerTest {
     public void shouldReturnTranslatedPokemon() throws Exception {
         // GIVEN
         final String pokemonName = "bulbasaur";
-        final PokemonDetails pokemonDetails = buildPokemonDetails(
-                2,
+        final Pokemon pokemon = buildPokemon(
                 "Balbasaur",
                 "The forest",
                 "Another Pokemon that I heard of",
                 true
         );
         final TranslatedPokemon translatedPokemonRequest = buildTranslatedPokemon(
-                pokemonDetails.getName(),
-                pokemonDetails.getFlavorTextEntries().get(0).getFlavorText(),
-                pokemonDetails.getHabitat().getName(),
-                pokemonDetails.isLegendary()
+                pokemon.getName(),
+                pokemon.getDescription(),
+                pokemon.getHabitat(),
+                pokemon.getLegendary()
         );
         final TranslatedPokemon translatedPokemonResponse = buildTranslatedPokemon(
                 translatedPokemonRequest.getName(),
@@ -97,10 +96,8 @@ public class PokedexControllerTest {
         final TranslatedPokemonDto translatedPokemonDto = buildTranslatedPokemonDto(translatedPokemonResponse);
 
         when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.matches(pokemonName)))
-                .thenReturn(pokemonDetails);
-        when(objectMapper.toTranslatedPokemon(ArgumentMatchers.eq(pokemonDetails)))
-                .thenReturn(translatedPokemonRequest);
-        when(translationService.translate(translatedPokemonRequest))
+                .thenReturn(pokemon);
+        when(translationService.translate(pokemon))
             .thenReturn(translatedPokemonResponse);
         when(objectMapper.toTranslatedPokemonDto(ArgumentMatchers.eq(translatedPokemonResponse)))
                 .thenReturn(translatedPokemonDto);

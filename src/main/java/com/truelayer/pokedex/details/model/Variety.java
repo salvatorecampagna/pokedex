@@ -7,13 +7,14 @@ import java.util.Objects;
 public class Variety{
     @JsonProperty("is_default")
     public boolean isDefault;
-    public Pokemon pokemon;
+    @JsonProperty("pokemon")
+    public PokemonName pokemon;
 
     public boolean isDefault() {
         return isDefault;
     }
 
-    public Pokemon getPokemon() {
+    public PokemonName getPokemon() {
         return pokemon;
     }
 

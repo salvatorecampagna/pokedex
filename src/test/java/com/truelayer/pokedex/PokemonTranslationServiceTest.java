@@ -3,10 +3,13 @@ package com.truelayer.pokedex;
 import com.netflix.config.ConfigurationManager;
 import com.netflix.hystrix.Hystrix;
 import com.netflix.hystrix.HystrixCircuitBreaker;
+import com.truelayer.pokedex.details.model.Pokemon;
+import com.truelayer.pokedex.translate.TranslationClient;
 import com.truelayer.pokedex.translate.TranslationClientProvider;
 import com.truelayer.pokedex.translate.TranslationService;
 import com.truelayer.pokedex.translate.TranslationServiceImpl;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
+import com.truelayer.pokedex.translate.model.Translation;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -48,10 +51,14 @@ public class PokemonTranslationServiceTest {
         //GIVEN
         when(translationClientProvider.get(
                 ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean())
-        ).thenReturn(String::toUpperCase);
+        ).thenReturn(text -> new Translation(
+                text.toUpperCase(),
+                text,
+                "uppercase"
+        ));
 
         final String description = "Pikachu is one of the most popular Pokemons";
-        final TranslatedPokemon request = buildTranslatedPokemon(
+        final Pokemon pokemon = buildPokemon(
                 "Pikachu",
                 description,
                 "The forest",
@@ -59,7 +66,7 @@ public class PokemonTranslationServiceTest {
         );
 
         //WHEN
-        final TranslatedPokemon translatedPokemonResponse = translationService.translate(request);
+        final TranslatedPokemon translatedPokemonResponse = translationService.translate(pokemon);
 
         // THEN
         assertThat(translatedPokemonResponse.getDescription()).isEqualTo(description.toUpperCase());
@@ -73,7 +80,7 @@ public class PokemonTranslationServiceTest {
         ).thenThrow(new RestClientException("Error while calling rest api"));
 
         final String description = "Pikachu is one of the most popular Pokemons";
-        final TranslatedPokemon request = buildTranslatedPokemon(
+        final Pokemon pokemon = buildPokemon(
                 "Pikachu",
                 description,
                 "The forest",
@@ -82,7 +89,7 @@ public class PokemonTranslationServiceTest {
 
 
         //WHEN
-        final TranslatedPokemon translatedPokemonResponse = translationService.translate(request);
+        final TranslatedPokemon translatedPokemonResponse = translationService.translate(pokemon);
 
         // THEN
         assertThat(translatedPokemonResponse.getDescription()).isEqualTo(description);
@@ -93,10 +100,14 @@ public class PokemonTranslationServiceTest {
         //GIVEN
         when(translationClientProvider.get(
                 ArgumentMatchers.anyString(), ArgumentMatchers.anyBoolean())
-        ).thenReturn(String::toUpperCase);
+        ).thenReturn(text -> new Translation(
+                text.toUpperCase(),
+                text,
+                "uppercase"
+        ));
 
         final String description = "Pikachu is one of the most popular Pokemons";
-        final TranslatedPokemon request = buildTranslatedPokemon(
+        final Pokemon pokemon = buildPokemon(
                 "Pikachu",
                 description,
                 "The forest",
@@ -104,7 +115,7 @@ public class PokemonTranslationServiceTest {
         );
 
         //WHEN
-        translationService.translate(request);
+        translationService.translate(pokemon);
 
         //THEN
         final HystrixCircuitBreaker hystrixCircuitBreaker = getCircuitBreaker(HYSTRIX_CIRCUIT_BREAKER_NAME);
@@ -121,13 +132,13 @@ public class PokemonTranslationServiceTest {
         //WHEN
         try {
             final String description = "Pikachu is one of the most popular Pokemons";
-            final TranslatedPokemon request = buildTranslatedPokemon(
+            final Pokemon pokemon = buildPokemon(
                     "Pikachu",
                     description,
                     "The forest",
                     false
             );
-            final TranslatedPokemon translatedPokemonResponse = translationService.translate(request);
+            final TranslatedPokemon translatedPokemonResponse = translationService.translate(pokemon);
         } catch (RestClientException e) {
             // THEN
             waitHystrixCircuitBreakerOpens();
@@ -140,7 +151,7 @@ public class PokemonTranslationServiceTest {
     public void circuitBreakerFallbackShouldReturnOriginalTranslatedPokemon() {
         //GIVEN
         final String description = "Pikachu is one of the most popular Pokemons";
-        final TranslatedPokemon request = buildTranslatedPokemon(
+        final Pokemon pokemon = buildPokemon(
                 "Pikachu",
                 description,
                 "The forest",
@@ -148,10 +159,19 @@ public class PokemonTranslationServiceTest {
         );
 
         //WHEN
-        final TranslatedPokemon response = new TranslationServiceImpl().translateFallback(request);
+        final TranslatedPokemon response = new TranslationServiceImpl().translateFallback(pokemon);
 
         //THEN
-        assertThat(response).isEqualTo(request);
+        assertThat(response).isEqualTo(
+                new TranslatedPokemon(
+                        pokemon.getName(),
+                        pokemon.getDescription(),
+                        pokemon.getHabitat(),
+                        null,
+                        false,
+                        pokemon.getLegendary()
+                )
+        );
     }
 
 }

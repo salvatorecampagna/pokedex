@@ -49,14 +49,28 @@ public class TestUtils {
     }
 
     public static PokemonDto buildPokemonDto(
-            final PokemonDetails pokemonDetails
+            final Pokemon pokemon
     ) {
-        return PokemonDto.builder()
-                .name(pokemonDetails.getName())
-                .description(pokemonDetails.getFlavorTextEntries().get(0).getFlavorText())
-                .habitat(pokemonDetails.getHabitat().getName())
-                .isLegendary(pokemonDetails.isLegendary())
-                .build();
+        return new PokemonDto(
+                pokemon.getName(),
+                pokemon.getDescription(),
+                pokemon.getHabitat(),
+                pokemon.getLegendary()
+        );
+    }
+
+    public static Pokemon buildPokemon(
+            final String name,
+            final String description,
+            final String habitat,
+            final Boolean isLegendary
+    ) {
+        return new Pokemon(
+                name,
+                description,
+                habitat,
+                isLegendary
+        );
     }
 
     public static TranslatedPokemon buildTranslatedPokemon(

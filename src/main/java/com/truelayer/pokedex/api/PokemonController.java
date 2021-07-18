@@ -41,9 +41,7 @@ public class PokemonController {
         logger.info(String.format("GET /translated/%s", pokemonName));
         return objectMapper.toTranslatedPokemonDto(
                 translationService.translate(
-                    objectMapper.toTranslatedPokemon(
-                            pokemonDetailsService.getByIdOrName(pokemonName)
-                    )
+                        pokemonDetailsService.getByIdOrName(pokemonName)
                 )
         );
     }

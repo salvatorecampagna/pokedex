@@ -1,6 +1,5 @@
 package com.truelayer.pokedex.translate;
 
-import com.truelayer.pokedex.api.PokemonController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

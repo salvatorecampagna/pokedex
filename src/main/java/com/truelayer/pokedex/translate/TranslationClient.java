@@ -1,5 +1,7 @@
 package com.truelayer.pokedex.translate;
 
+import com.truelayer.pokedex.translate.model.Translation;
+
 public interface TranslationClient {
-    String translate(String text);
+    Translation translate(String text);
 }

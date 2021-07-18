@@ -2,6 +2,7 @@ package com.truelayer.pokedex.mapper;
 
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
+import com.truelayer.pokedex.details.model.Pokemon;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class ObjectMapperImpl implements ObjectMapper {
     private PokemonDescriptionProvider pokemonDescriptionProvider;
 
     @Override
-    public PokemonDto toPokemonDto(final PokemonDetails pokemonDetails) {
-        return new PokemonDto(
+    public Pokemon toPokemon(final PokemonDetails pokemonDetails) {
+        return new Pokemon(
                 pokemonDetails.getName(),
                 pokemonDescriptionProvider.get(pokemonDetails),
                 pokemonDetails.getHabitat().getName(),
@@ -24,12 +25,12 @@ public class ObjectMapperImpl implements ObjectMapper {
     }
 
     @Override
-    public TranslatedPokemon toTranslatedPokemon(final PokemonDetails pokemonDetails) {
-        return new TranslatedPokemon(
-                pokemonDetails.getName(),
-                pokemonDescriptionProvider.get(pokemonDetails),
-                pokemonDetails.getHabitat().getName(),
-                pokemonDetails.isLegendary()
+    public PokemonDto toPokemonDto(final Pokemon pokemon) {
+        return new PokemonDto(
+                pokemon.getName(),
+                pokemon.getDescription(),
+                pokemon.getHabitat(),
+                pokemon.getLegendary()
         );
     }
 

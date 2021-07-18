@@ -1,5 +1,6 @@
 package com.truelayer.pokedex.translate;
 
+import com.truelayer.pokedex.translate.model.Translation;
 import com.truelayer.pokedex.translate.model.TranslationRequest;
 import com.truelayer.pokedex.translate.model.TranslationResponse;
 import org.springframework.web.client.RestTemplate;
@@ -21,9 +22,14 @@ public class TranslationClientImpl implements TranslationClient {
     }
 
     @Override
-    public String translate(final String text) {
+    public Translation translate(final String text) {
             final String url = String.format(props.getUrl(), translation);
-            return restTemplate.postForEntity(url, new TranslationRequest(text), TranslationResponse.class)
-                    .getBody().getContents().getTranslated();
+            final TranslationResponse translationResponse = restTemplate.postForEntity(
+                    url, new TranslationRequest(text), TranslationResponse.class).getBody();
+            return new Translation(
+                    translationResponse.getContents().getTranslated(),
+                    translationResponse.getContents().getText(),
+                    translationResponse.getContents().getTranslation()
+            );
     }
 }

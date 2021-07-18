@@ -2,7 +2,9 @@ package com.truelayer.pokedex.details;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.truelayer.pokedex.details.model.Pokemon;
 import com.truelayer.pokedex.details.model.PokemonDetails;
+import com.truelayer.pokedex.mapper.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class PokemonDetailsServiceImpl implements PokemonDetailsService {
     @Autowired
     private PokemonDetailsClient pokemonDetailsClient;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     private final Logger logger = LoggerFactory.getLogger(PokemonDetailsServiceImpl.class);
 
     @Override
@@ -24,9 +29,10 @@ public class PokemonDetailsServiceImpl implements PokemonDetailsService {
                     @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
             }
     )
-    public PokemonDetails getByIdOrName(final String idOrName) {
+    public Pokemon getByIdOrName(final String idOrName) {
         try {
-            return pokemonDetailsClient.getByIdOrName(idOrName);
+            final PokemonDetails pokemonDetails = pokemonDetailsClient.getByIdOrName(idOrName);
+            return objectMapper.toPokemon(pokemonDetails);
         } catch(RestClientException e) {
             final String message = String.format("Error while invoking the pokemon rest api: '%s'", e.getMessage());
             logger.error(message);
