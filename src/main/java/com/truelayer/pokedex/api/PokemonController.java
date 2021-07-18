@@ -3,7 +3,7 @@ package com.truelayer.pokedex.api;
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
 import com.truelayer.pokedex.mapper.ObjectMapper;
-import com.truelayer.pokedex.translate.TranslateService;
+import com.truelayer.pokedex.translate.TranslationService;
 import com.truelayer.pokedex.details.PokemonDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class PokemonController {
     private PokemonDetailsService pokemonDetailsService;
 
     @Autowired
-    private TranslateService translateService;
+    private TranslationService translationService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -34,7 +34,7 @@ public class PokemonController {
     @GetMapping("/translated/{pokemonName}")
     public TranslatedPokemonDto getTranslatedPokemon(@PathVariable("pokemonName") final String pokemonName) {
         return objectMapper.toTranslatedPokemonDto(
-                translateService.translate(
+                translationService.translate(
                     objectMapper.toTranslatedPokemon(
                             pokemonDetailsService.getByIdOrName(pokemonName)
                     )

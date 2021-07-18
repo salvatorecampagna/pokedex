@@ -9,7 +9,7 @@ import com.truelayer.pokedex.details.model.Habitat;
 import com.truelayer.pokedex.details.model.Language;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.mapper.ObjectMapper;
-import com.truelayer.pokedex.translate.TranslateService;
+import com.truelayer.pokedex.translate.TranslationService;
 import com.truelayer.pokedex.translate.model.TranslatedPokemon;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(PokemonController.class)
 public class PokedexControllerTest {
     @MockBean
-    TranslateService translateService;
+    TranslationService translationService;
 
     @MockBean
     PokemonDetailsService pokemonDetailsService;
@@ -104,7 +104,7 @@ public class PokedexControllerTest {
                 .thenReturn(pokemonDetails);
         when(objectMapper.toTranslatedPokemon(ArgumentMatchers.eq(pokemonDetails)))
                 .thenReturn(translatedPokemonRequest);
-        when(translateService.translate(translatedPokemonRequest))
+        when(translationService.translate(translatedPokemonRequest))
             .thenReturn(translatedPokemonResponse);
         when(objectMapper.toTranslatedPokemonDto(ArgumentMatchers.eq(translatedPokemonResponse)))
                 .thenReturn(translatedPokemonDto);
