@@ -122,4 +122,20 @@ public class PokedexControllerTest {
         //THEN
         resultActions.andExpect(status().is5xxServerError());
     }
+
+    @Test
+    public void shouldReturnValidationErrorForBlankPokemonDetails() throws Exception {
+        // GIVEN
+        when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.anyString()))
+                .thenThrow(new PokemonDetailsException("Exception while retrieving pokemon details"));
+
+        //WHEN
+        final ResultActions resultActions = mockMvc.perform(
+                get("/pokemon/")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //THEN
+        resultActions.andExpect(status().is4xxClientError());
+    }
 }
