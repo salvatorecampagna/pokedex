@@ -26,7 +26,7 @@ public class TranslationClientProviderImpl implements TranslationClientProvider 
             final Pokemon pokemon
     ) {
         final String translation = CAVE_HABITAT.equalsIgnoreCase(pokemon.getHabitat()) || pokemon.getLegendary() ?
-                "shakespeare" : "yoda";
+                "yoda" : "shakespeare";
         logger.info(
                 String.format(
                         "Translation: %s, habitat: %s, isLegendary: %s",
