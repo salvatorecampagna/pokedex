@@ -2,8 +2,9 @@ package com.truelayer.pokedex.api;
 
 import com.truelayer.pokedex.api.model.PokemonDto;
 import com.truelayer.pokedex.api.model.TranslatedPokemonDto;
-import com.truelayer.pokedex.details.PokemonDetailsException;
 import com.truelayer.pokedex.details.PokemonDetailsService;
+import com.truelayer.pokedex.details.exceptions.PokemonDetailsClientException;
+import com.truelayer.pokedex.details.exceptions.PokemonDetailsServerException;
 import com.truelayer.pokedex.details.model.Pokemon;
 import com.truelayer.pokedex.mapper.ObjectMapper;
 import com.truelayer.pokedex.translate.TranslationService;
@@ -113,7 +114,7 @@ public class PokedexControllerTest {
     public void shouldReturn5xxOnPokemonDetailsRestApiCallError() throws Exception {
         // GIVEN
         when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.anyString()))
-                .thenThrow(new PokemonDetailsException("Exception while retrieving pokemon details"));
+                .thenThrow(new PokemonDetailsClientException(new RuntimeException("Error")));
 
         //WHEN
         final ResultActions resultActions = mockMvc.perform(
@@ -122,14 +123,14 @@ public class PokedexControllerTest {
         );
 
         //THEN
-        resultActions.andExpect(status().is5xxServerError());
+        resultActions.andExpect(status().is4xxClientError());
     }
 
     @Test
     public void shouldReturnValidationErrorForBlankPokemonDetails() throws Exception {
         // GIVEN
         when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.anyString()))
-                .thenThrow(new PokemonDetailsException("Exception while retrieving pokemon details"));
+                .thenThrow(new PokemonDetailsClientException(new RuntimeException("Error")));
 
         //WHEN
         final ResultActions resultActions = mockMvc.perform(
@@ -146,7 +147,7 @@ public class PokedexControllerTest {
         // GIVEN
         final String pokemonName = "bulbasaur";
         when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.matches(pokemonName))).thenThrow(
-                new PokemonDetailsException(String.format("Error while retriving details for %s", pokemonName))
+                new PokemonDetailsServerException(new RuntimeException("Error"))
         );
 
         //WHEN

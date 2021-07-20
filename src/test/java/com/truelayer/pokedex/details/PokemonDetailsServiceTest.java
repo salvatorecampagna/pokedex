@@ -1,6 +1,7 @@
 package com.truelayer.pokedex.details;
 
 import com.truelayer.pokedex.TestUtils;
+import com.truelayer.pokedex.details.exceptions.PokemonDetailsServerException;
 import com.truelayer.pokedex.details.model.Pokemon;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ class PokemonDetailsServiceTest {
         //GIVEN
         when(pokemonDetailsClientProvider.get()).thenReturn(
                 idOrName -> {
-                    throw new RestClientException("Error while calling rest api");
+                    throw new PokemonDetailsServerException(new RuntimeException("Error"));
                 }
         );
 
@@ -62,6 +63,6 @@ class PokemonDetailsServiceTest {
         final ThrowableAssert.ThrowingCallable call = () -> pokemonDetailsService.getByIdOrName("pikachu");
 
         //THEN
-        assertThatExceptionOfType(PokemonDetailsException.class).isThrownBy(call);
+        assertThatExceptionOfType(PokemonDetailsServerException.class).isThrownBy(call);
     }
 }
