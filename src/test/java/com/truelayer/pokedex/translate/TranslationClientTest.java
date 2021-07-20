@@ -55,8 +55,8 @@ class TranslationClientTest {
         final TranslationResponse translationResponse = TranslationResponse.builder()
                 .contents(Contents.builder().translated(translated).translation(translation).text(text).build())
                 .success(Success.builder().total(1).build()).build();
-        mockServer.expect(ExpectedCount.once(), requestTo(
-                new URI("https://api.funtranslations.com/translate/yoda.json")))
+        final String uri = String.format(props.getUrl(), translation);
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(uri)))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)

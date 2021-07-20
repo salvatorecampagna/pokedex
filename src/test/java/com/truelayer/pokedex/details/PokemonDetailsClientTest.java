@@ -53,8 +53,8 @@ class PokemonDetailsClientTest {
                 "The forest",
                 false
         );
-        mockServer.expect(ExpectedCount.once(), requestTo(
-                new URI("https://pokeapi.co/api/v2/pokemon-species/pikachu")))
+        final String uri = String.format(props.getUrl(), pokemonName);
+        mockServer.expect(ExpectedCount.once(), requestTo(new URI(uri)))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
