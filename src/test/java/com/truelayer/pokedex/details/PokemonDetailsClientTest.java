@@ -44,7 +44,7 @@ class PokemonDetailsClientTest {
     }
 
     @Test
-    public void shouldCallYodaTranslationRestApi() throws URISyntaxException, JsonProcessingException {
+    public void shouldCallPokemonSpeciesApi() throws URISyntaxException, JsonProcessingException {
         final String pokemonName = "pikachu";
         final PokemonDetails pokemonDetails = TestUtils.buildPokemonDetails(
                 1,
