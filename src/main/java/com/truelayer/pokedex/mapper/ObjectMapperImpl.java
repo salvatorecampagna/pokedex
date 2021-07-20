@@ -19,7 +19,7 @@ public class ObjectMapperImpl implements ObjectMapper {
         return new Pokemon(
                 pokemonDetails.getName(),
                 pokemonDescriptionProvider.get(pokemonDetails),
-                pokemonDetails.getHabitat().getName(),
+                pokemonDetails.getHabitat() != null ? pokemonDetails.getHabitat().getName() : null,
                 pokemonDetails.isLegendary()
         );
     }

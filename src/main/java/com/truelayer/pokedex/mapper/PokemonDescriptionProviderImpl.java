@@ -1,5 +1,6 @@
 package com.truelayer.pokedex.mapper;
 
+import com.truelayer.pokedex.details.model.FlavorTextEntry;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,15 @@ public class PokemonDescriptionProviderImpl implements PokemonDescriptionProvide
 
     @Override
     public String get(final PokemonDetails pokemonDetails) {
-        return pokemonDetails.getFlavorTextEntries().stream().filter(
+        if (pokemonDetails.getFlavorTextEntries() == null || pokemonDetails.getFlavorTextEntries().isEmpty()) {
+            return null;
+        }
+        final FlavorTextEntry flavorTextEntry = pokemonDetails.getFlavorTextEntries().stream().filter(
                 entry -> ENGLISH_LANGUAGE.equalsIgnoreCase(entry.getLanguage().getName())
-        ).findFirst().orElseThrow(() -> new NoSuchElementException("No description found")).getFlavorText();
+        ).findFirst().orElse(null);
+        if (flavorTextEntry == null) {
+            return null;
+        }
+        return flavorTextEntry.getFlavorText();
     }
 }
