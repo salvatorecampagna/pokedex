@@ -48,7 +48,7 @@ class PokemonDetailsClientTest {
         final String pokemonName = "pikachu";
         final PokemonDetails pokemonDetails = TestUtils.buildPokemonDetails(
                 1,
-                pokemonName,
+                "Pikachu",
                 "A popular pokemon",
                 "The forest",
                 false
