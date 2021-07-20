@@ -30,7 +30,7 @@ class TranslationClientProviderTest {
     }
 
     @Test
-    public void shouldReturnYodaTranslationClientWhenLegenday() {
+    public void shouldReturnYodaTranslationClientWhenLegendary() {
         //GIVEN
         final Pokemon pokemon = new Pokemon(
                 "Pikachu",
