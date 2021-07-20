@@ -140,4 +140,22 @@ public class PokedexControllerTest {
         //THEN
         resultActions.andExpect(status().is4xxClientError());
     }
+
+    @Test
+    public void shouldReturn5xxOnPokemonDetailsException() throws Exception {
+        // GIVEN
+        final String pokemonName = "bulbasaur";
+        when(pokemonDetailsService.getByIdOrName(ArgumentMatchers.matches(pokemonName))).thenThrow(
+                new PokemonDetailsException(String.format("Error while retriving details for %s", pokemonName))
+        );
+
+        //WHEN
+        final ResultActions resultActions = mockMvc.perform(
+                get(String.format("/pokemon/translated/%s", pokemonName))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //THEN
+        resultActions.andExpect(status().is5xxServerError());
+    }
 }
