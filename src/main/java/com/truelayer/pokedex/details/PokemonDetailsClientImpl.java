@@ -1,9 +1,6 @@
 package com.truelayer.pokedex.details;
 
 import com.truelayer.pokedex.details.model.PokemonDetails;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 public class PokemonDetailsClientImpl implements PokemonDetailsClient {
