@@ -6,7 +6,6 @@ import com.truelayer.pokedex.translate.model.Contents;
 import com.truelayer.pokedex.translate.model.Success;
 import com.truelayer.pokedex.translate.model.Translation;
 import com.truelayer.pokedex.translate.model.TranslationResponse;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +75,7 @@ class TranslationClientTest {
     public void shouldCallShakespeareTranslationRestApi() throws URISyntaxException, JsonProcessingException {
         final String translated = "To be or not to be, that is the question";
         final String text = "The question is, to be or not to be";
-        final String translation = "shakepeare";
+        final String translation = "shakespeare";
         final TranslationResponse translationResponse = TranslationResponse.builder()
                 .contents(Contents.builder().translated(translated).translation(translation).text(text).build())
                 .success(Success.builder().total(1).build()).build();
