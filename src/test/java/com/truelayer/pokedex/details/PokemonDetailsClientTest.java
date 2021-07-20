@@ -64,5 +64,6 @@ class PokemonDetailsClientTest {
 
         assertThat(pokemonDetailsClient.getByIdOrName(pokemonName))
                 .isEqualTo(pokemonDetails);
+        mockServer.verify();
     }
 }

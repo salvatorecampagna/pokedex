@@ -66,10 +66,10 @@ class TranslationClientTest {
                 props, restTemplate, "yoda"
         );
 
-        assertThat(translationClient.translate(text))
-                .isEqualTo(
-                        Translation.builder().translation(translation).translated(translated).text(text).build()
-                );
+        assertThat(translationClient.translate(text)).isEqualTo(
+                Translation.builder().translation(translation).translated(translated).text(text).build()
+        );
+        mockServer.verify();
     }
 
     @Test
@@ -95,5 +95,6 @@ class TranslationClientTest {
                 translationClient.translate(text)).isEqualTo(
                 Translation.builder().translation(translation).translated(translated).text(text).build()
         );
+        mockServer.verify();
     }
 }
