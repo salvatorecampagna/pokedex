@@ -21,7 +21,7 @@ public class PokemonDetailsClientImpl implements PokemonDetailsClient {
     @Override
 
     public PokemonDetails getByIdOrName(final String idOrName) {
-            final String url = String.format(props.getUrl(), idOrName);
-            return restTemplate.getForEntity(url, PokemonDetails.class).getBody();
+        final String url = String.format(props.getUrl(), idOrName);
+        return restTemplate.getForObject(url, PokemonDetails.class);
     }
 }

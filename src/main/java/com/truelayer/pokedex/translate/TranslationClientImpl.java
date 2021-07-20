@@ -24,8 +24,8 @@ public class TranslationClientImpl implements TranslationClient {
     @Override
     public Translation translate(final String text) {
             final String url = String.format(props.getUrl(), translation);
-            final TranslationResponse translationResponse = restTemplate.postForEntity(
-                    url, new TranslationRequest(text), TranslationResponse.class).getBody();
+            final TranslationResponse translationResponse = restTemplate.postForObject(
+                    url, new TranslationRequest(text), TranslationResponse.class);
             return new Translation(
                     translationResponse.getContents().getTranslated(),
                     translationResponse.getContents().getText(),
