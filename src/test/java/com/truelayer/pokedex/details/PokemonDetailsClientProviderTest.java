@@ -12,7 +12,7 @@ class PokemonDetailsClientProviderTest {
     private PokemonDetailsClientProvider pokemonDetailsClientProvider;
 
     @Test
-    public void shouldProvidePokemonDetailsCLient() {
+    public void shouldProvidePokemonDetailsClient() {
         final PokemonDetailsClient pokemonDetailsClient = pokemonDetailsClientProvider.get();
 
         assertThat(pokemonDetailsClient).isInstanceOf(PokemonDetailsClientImpl.class);
