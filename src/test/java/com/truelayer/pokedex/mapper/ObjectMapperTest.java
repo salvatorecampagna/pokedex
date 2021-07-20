@@ -36,7 +36,7 @@ public class ObjectMapperTest {
     }
 
     @Test
-    public void shouldReturnTranslatedPokeonDto() {
+    public void shouldReturnTranslatedPokemonDto() {
         final TranslatedPokemon translatedPokemon = buildTranslatedPokemon(
                 "Bulbasaur",
                 "Another pokemon living in the forest",
