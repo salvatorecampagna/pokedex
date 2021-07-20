@@ -4,8 +4,6 @@ import com.truelayer.pokedex.details.model.FlavorTextEntry;
 import com.truelayer.pokedex.details.model.Language;
 import com.truelayer.pokedex.details.model.PokemonDetails;
 import com.truelayer.pokedex.details.model.Version;
-import com.truelayer.pokedex.mapper.PokemonDescriptionProvider;
-import com.truelayer.pokedex.mapper.PokemonDescriptionProviderImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
