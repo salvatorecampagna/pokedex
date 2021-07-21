@@ -25,7 +25,7 @@ Run the Pokedex application using Docker:
 ### Running the Pokedex application using the Gradle wrapper    
 If you prefer running the application directly without using Docker, do the following from the project root directory:
 
-`./gradlew clean build && java -jar build/libs/pokedex-1.0.0.jar`
+`./gradlew clean build && java -jar build/libs/pokedex-1.0.0.jar --server.port=5000 --logging.level.root=ERROR`
 
 **NOTE:** the `build/libs` directory includes two Jar files. Make sure to use `pokedex-1.0.0.jar` which is the so called
 'fat Jar' that is self-contained and includes all required dependencies.
@@ -37,13 +37,13 @@ divided in the following sub-packages:
 - `com.truelayer.pokedex.api`: this package includes the HTTP controller which implements the two APIs and includes the DTOs
 returned to the client as JSON.
 - `com.truelayer.pokedex.details`: this sub-package includes all classes implementing the first API `/pokemon/{pokemonName}`
-  (what I refer in code as **pokemon details**).
+  (what I refer in code as *pokemon details*).
 - `com.truelayer.pokedex.translate`: this sub-package includes all classes implementing the second API `pokemon/translated/{pokemonName}`
-  (what I refer in code as **translation**).
+  (what I refer in code as *translation*).
 - `com.truelayer.pokedex.mapper`: this sub-package includes two classes, one mapping DTOs to service objects and vice-versa
   and one class implementing the logic to extract the description of the Pokemon after calling the remote REST PokeAPI.
 
-When packaging the different classes I used the *package-by-feature* strategy, placing all items for a single feature into
+When packaging the different classes I used the **package-by-feature** strategy, placing all items for a single feature into
 the same package (and directory). This results in modular packages, and minimal coupling between packages. Items that
 work together are placed next to each other and are not spread out all over the application.
 
@@ -66,15 +66,15 @@ allowed again and depending on the outcome of these calls the circuit will be cl
 or kept open in case the remote service is still experiencing failures.
 
 I used **Hystrix**, made popular by Netflix, to protect calls to remote APIs (translation and pokeapi) and avoid failures
-to propagate to upstream components. Even if this is a "toy-applcaition" I believe protecting an application from remote
-services failing is a **must-have** for modern cloud-based applications.
+to propagate to upstream components. Even if this is a *toy-application* I believe protecting an application and remote services
+from failures is a *must-have* for modern cloud-based applications.
 
 For the translation service I also used the *fallback* mechanism provided by the Hystrix circuit breaker to provide a
 default response.
 
 ### Bulk heading
 
-Using a bulk head pattern we can break calls to remote services into different thread pools and reduce the risk that
+Using a **bulkhead** pattern we can break calls to remote services into different thread pools and reduce the risk that
 a problem with one slow service  will take down the whole application. It is a way to isolate or compartmentalize parts
 of an application to avoid errors to propagate. The thread pools act as the bulkhead for a service. Each remote resource
 is segregated and calls to other services won't be affected because they are processed by threads in a different thread pool.
@@ -82,8 +82,8 @@ In the specific case I used two thread pools for the two different application s
 used by the second API and pokemon details service used by the first API.
 
 In the code these two thread pools are identified by two different thread pool keys: `pokemon-details` and `pokemon-translate`
-(see `TranslationServiceImpl` and `PokemonDetailsServiceImpl`). In the application properties (see section below setting
-are available for the two different thread pools).
+(see `TranslationServiceImpl` and `PokemonDetailsServiceImpl`). In the application properties (see section below) settings
+are available for both thread pools.
 
 Again this is provided by the Hystrix library.
 
@@ -94,33 +94,33 @@ each one of them through the command line. The list of properties is the followi
 - `logging.level.root` (default: ERROR): the logging level used by the application when writing messages to the console.
 - `server.port` (default: 5000): the port the server will listen to for HTTP requests;
 - `service.pokemon.details.url` (default: https://pokeapi.co/api/v2/pokemon-species/%s): a string identifying the endpoint
-  for the first service API call.
+    for the first service API call.
 - `service.pokemon.translate.url` (default: https://api.funtranslations.com/translate/%s.json): a string identifying the
   endpoint for the second service API call.
-- `hystrix.threadpool.pokemon-translate.coreSize` (default = 20): the size of the thread pool used to run threads calling
-  the first REST API (first API).
-- `hystrix.threadpool.pokemon-translate.maximumSize` (default = 50): the maximum thread pool size used to run threads calling
-  the first REST API. Under high-load the number of threads will increase up to this value (first API).
-- `hystrix.threadpool.pokemon-translate.maxQueueSize` (default = 50): the maximum queue size set in front of the thread pool.
-  If set to -1, no queue is used and Hystrix will block the request until a thread becomes available (first API).
-- `hystrix.threadpool.pokemon-translate.queueSizeRejectionThreshold` (default = 300): the maximum queue size for request
-  above which requests will be discarded (first API).
-- `hystrix.threadpool.pokemon-translate.allowMaximumSizeToDivergeFromCoreSize` (default = true): allows threads to be created
-  if required to serve more requests (first API).
-- `hystrix.threadpool.pokemon-translate.keepAliveTimeMinutes` (default = 1): after threads are created to serve more requests
-  this is the time they will be kept around before they are release to return to the normal thread pool size (first API).
-- `hystrix.threadpool.pokemon-details.coreSize` (default = 20): the size of the thread pool used to run threads calling
-  the first REST API (second API).
+- `hystrix.threadpool.pokemon-details.coreSize` (default = 20): the size of the thread pool used to run threads calling 
+  the first REST API.
 - `hystrix.threadpool.pokemon-details.maximumSize` (default = 50): the maximum thread pool size used to run threads calling
-  the first REST API. Under high-load the number of threads will increase up to this value (second API).
+  the first REST API. Under high-load the number of threads will increase up to this value.
 - `hystrix.threadpool.pokemon-details.maxQueueSize` (default = 50): the maximum queue size set in front of the thread pool.
-  If set to -1, no queue is used and Hystrix will block the request until a thread becomes available (second API).
+  If set to -1, no queue is used and Hystrix will block the request until a thread becomes available.
 - `hystrix.threadpool.pokemon-details.queueSizeRejectionThreshold` (default = 300): the maximum queue size for request
-  above which requests will be discarded (second API).
+  above which requests will be discarded.
 - `hystrix.threadpool.pokemon-details.allowMaximumSizeToDivergeFromCoreSize` (default = true): allows threads to be created
-  if required to serve more requests (second API).
+  if required to serve more requests.
 - `hystrix.threadpool.pokemon-details.keepAliveTimeMinutes` (default = 1): after threads are created to serve more requests
-  this is the time they will be kept around before they are release to return to the normal thread pool size (second API).
+  this is the time they will be kept around before they are release to return to the normal thread pool size.
+- `hystrix.threadpool.pokemon-translate.coreSize` (default = 20): the size of the thread pool used to run threads calling
+  the second REST API.
+- `hystrix.threadpool.pokemon-translate.maximumSize` (default = 50): the maximum thread pool size used to run threads calling
+  the second REST API. Under high-load the number of threads will increase up to this value.
+- `hystrix.threadpool.pokemon-translate.maxQueueSize` (default = 50): the maximum queue size set in front of the thread pool.
+  If set to -1, no queue is used and Hystrix will block the request until a thread becomes available.
+- `hystrix.threadpool.pokemon-translate.queueSizeRejectionThreshold` (default = 300): the maximum queue size for request
+  above which requests will be discarded.
+- `hystrix.threadpool.pokemon-translate.allowMaximumSizeToDivergeFromCoreSize` (default = true): allows threads to be created
+  if required to serve more requests.
+- `hystrix.threadpool.pokemon-translate.keepAliveTimeMinutes` (default = 1): after threads are created to serve more requests
+  this is the time they will be kept around before they are release to return to the normal thread pool size.
 
 **NOTE:** the values I provided as default values should not be considered the best possible choice and this is
 also the reason why all these properties can be set on the command line overriding the default values. My opinion is that:
@@ -173,6 +173,6 @@ need in general when using APIs in a cloud environment, and a decent number of m
 * **Logging**: have a system to centralize logs collection (ELK, Graylog,...).
 
 * **Tracing**: having the ability to 'follow' API calls from one service to another is very important. A tracing system
-  usually works injecting a so called 'correlation id' into the HTTP request as an HTTP header. Later, traces are collected
-  in a central place and aggregated using the correlation id, showing the different service a request went through including
+  usually works injecting a so called *correlation id* into the HTTP request as an HTTP header. Later, traces are collected
+  in a central place and aggregated using the correlation id, showing the different services a request went through including
   timings.
